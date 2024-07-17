@@ -7,38 +7,39 @@ import core.mate.academy.model.Truck;
 import core.mate.academy.service.impl.BulldozerProducerImpl;
 import core.mate.academy.service.impl.ExcavatorProducerImpl;
 import core.mate.academy.service.impl.TruckProducerImpl;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
  * Your implementation of MachineService.
  */
-public class MachineServiceImpl<T extends Machine> implements MachineService<T> {
+public class MachineServiceImpl implements MachineService<Machine> {
     @Override
-    public List<T> getAll(Class<? extends T> type) {
+    public List<Machine> getAll(Class<? extends Machine> type) {
         if (type == Bulldozer.class) {
             MachineProducer<Bulldozer> producer = new BulldozerProducerImpl();
-            return (List<T>) producer.get();
+            return new ArrayList<>(producer.get());
         } else if (type == Excavator.class) {
             MachineProducer<Excavator> producer = new ExcavatorProducerImpl();
-            return (List<T>) producer.get();
+            return new ArrayList<>(producer.get());
         } else if (type == Truck.class) {
             MachineProducer<Truck> producer = new TruckProducerImpl();
-            return (List<T>) producer.get();
+            return new ArrayList<>(producer.get());
         } else {
             return Collections.emptyList();
         }
     }
 
     @Override
-    public void fill(List<? super T> machines, T value) {
-        machines.replaceAll(ignored -> value);
+    public void fill(List<? super Machine> machines, Machine value) {
+        for (int i = 0; i < machines.size(); i++) {
+            machines.set(i, value);
+        }
     }
 
     @Override
-    public void startWorking(List<? extends T> machines) {
-        for (T machine : machines) {
-            machine.doWork();
-        }
+    public void startWorking(List<? extends Machine> machines) {
+        machines.forEach(Machine::doWork);
     }
 }
