@@ -7,7 +7,7 @@ import core.mate.academy.model.Truck;
 import core.mate.academy.service.impl.BulldozerProducerImpl;
 import core.mate.academy.service.impl.ExcavatorProducerImpl;
 import core.mate.academy.service.impl.TruckProducerImpl;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,7 +26,7 @@ public class MachineServiceImpl<T extends Machine> implements MachineService<T> 
             MachineProducer<Truck> producer = new TruckProducerImpl();
             return (List<T>) producer.get();
         } else {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
     }
 
